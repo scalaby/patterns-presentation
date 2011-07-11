@@ -1,1 +1,1 @@
-Исходный код презентации о паттернах в Scala на встрече #3 группы "Scala Enthusiasts Belarus".
+Source code of the presentation about Scala patterns made at the 3rd meetup of "Scala Enthusiasts Belarus".
