@@ -6,7 +6,7 @@ object Cell {
 	private def wrapFunc[T](f: =>T) = new Function0[T] {
 		def apply: T = f			
 	}
-	def apply[T](value: =>T)(alias: String)(implicit ctx: CellContext) = new Cell(value)(ctx)
+	def apply[T](value: =>T)(implicit ctx: CellContext) = new Cell(value)(ctx)
 }
 
 class Cell[T](initialValue: =>T)(ctx: CellContext) {
