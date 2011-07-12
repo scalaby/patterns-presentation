@@ -16,8 +16,10 @@ class Cell[T](initialValue: =>T)(ctx: CellContext) {
 	private val outputs: M.Set[Cell[_]] = M.Set()
 	def apply() = {
 		updateDeps()
-		if(currentValue.isEmpty)
-			compute()
+		ctx.synchronized {
+			if(currentValue.isEmpty)
+				compute()
+		}
 		currentValue.get
 	}
 	def update(t: =>T) = {
@@ -38,10 +40,10 @@ class Cell[T](initialValue: =>T)(ctx: CellContext) {
 			ctx.stack(0).inputs += this
 		}
 	}
-	private def compute() = ctx.synchronized {
+	private def compute() { 
 		ctx.stack.push(this)
 		currentValue = Some(value())
-		ctx.stack.pop()		
+		ctx.stack.pop()
 	}
 }
 
