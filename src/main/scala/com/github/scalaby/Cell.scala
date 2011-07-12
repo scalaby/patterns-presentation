@@ -22,20 +22,23 @@ class Cell[T](initialValue: =>T)(ctx: CellContext) {
 	}
 	def update(t: =>T) = {
 		value = Cell.wrapFunc(t)
-		inputs.foreach(_.outputs -= this)
-		inputs.clear()
-		clear()
+		ctx.synchronized { 
+			inputs.foreach(_.outputs -= this)
+			inputs.clear()
+			clear()
+		}
 	}
 	private def clear() {
 		currentValue = None
 		outputs.foreach(_.clear())
 	}
-	private def updateDeps() =
+	private def updateDeps() = ctx.synchronized { 
 		if(!ctx.stack.isEmpty) {
 			outputs += ctx.stack(0)
 			ctx.stack(0).inputs += this
-		}	
-	private def compute() {
+		}
+	}
+	private def compute() = ctx.synchronized {
 		ctx.stack.push(this)
 		currentValue = Some(value())
 		ctx.stack.pop()		
