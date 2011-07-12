@@ -12,8 +12,8 @@ object Cell {
 class Cell[T](initialValue: =>T)(ctx: CellContext) {
 	private var value:Function0[T] = Cell.wrapFunc(initialValue)
 	private var currentValue:Option[T] = None
-	private var inputs: M.Set[Cell[_]] = M.Set()
-	private var outputs: M.Set[Cell[_]] = M.Set()
+	private val inputs: M.Set[Cell[_]] = M.Set()
+	private val outputs: M.Set[Cell[_]] = M.Set()
 	def apply() = {
 		updateDeps()
 		if(currentValue.isEmpty)
@@ -23,10 +23,10 @@ class Cell[T](initialValue: =>T)(ctx: CellContext) {
 	def update(t: =>T) = {
 		value = Cell.wrapFunc(t)
 		inputs.foreach(_.outputs -= this)
-		inputs = M.Set()
+		inputs.clear()
 		clear()
 	}
-	private[Cell] def clear() {
+	private def clear() {
 		currentValue = None
 		outputs.foreach(_.clear())
 	}
