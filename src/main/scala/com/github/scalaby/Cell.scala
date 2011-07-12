@@ -14,32 +14,27 @@ class Cell[T](initialValue: =>T)(ctx: CellContext) {
 	private var currentValue:Option[T] = None
 	private val inputs: M.Set[Cell[_]] = M.Set()
 	private val outputs: M.Set[Cell[_]] = M.Set()
-	def apply() = {
+	def apply() = ctx.synchronized {
 		updateDeps()
-		ctx.synchronized {
-			if(currentValue.isEmpty)
-				compute()
-		}
+		if(currentValue.isEmpty)
+			compute()
 		currentValue.get
 	}
-	def update(t: =>T) = {
+	def update(t: =>T) = ctx.synchronized { 
 		value = Cell.wrapFunc(t)
-		ctx.synchronized { 
-			inputs.foreach(_.outputs -= this)
-			inputs.clear()
-			clear()
-		}
+		inputs.foreach(_.outputs -= this)
+		inputs.clear()
+		clear()
 	}
 	private def clear() {
 		currentValue = None
 		outputs.foreach(_.clear())
 	}
-	private def updateDeps() = ctx.synchronized { 
+	private def updateDeps() =
 		if(!ctx.stack.isEmpty) {
 			outputs += ctx.stack(0)
 			ctx.stack(0).inputs += this
 		}
-	}
 	private def compute() { 
 		ctx.stack.push(this)
 		currentValue = Some(value())
