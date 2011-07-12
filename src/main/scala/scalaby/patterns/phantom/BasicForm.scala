@@ -9,7 +9,7 @@ import javax.servlet.http._
 import scala.collection.JavaConversions._
 
 trait Form {
-
+  
   def readFormData (request: HttpServletRequest): FormData[Unvalidated] = 
     FormData[Unvalidated](    
       request.getParameterMap
