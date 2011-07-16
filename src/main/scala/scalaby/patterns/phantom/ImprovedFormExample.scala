@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest
 
 object ImprovedFormExample {
 
-  import ImprovedForm._
+    import ImprovedForm._
   
-  def printForm(request: HttpServletRequest) = 
-    printFormData(readFormData(request))
+    def printForm(request: HttpServletRequest) = 
+        printFormData(readFormData(request))
   
 }

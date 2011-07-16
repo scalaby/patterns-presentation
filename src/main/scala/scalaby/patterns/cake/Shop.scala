@@ -11,26 +11,33 @@ trait Order
 trait Product
 
 trait Datasource {
-  def persist[A](ojbect: A): Unit
+    def persist[A](ojbect: A): Unit
   
-  //...
+    //...
 }
 
 trait DAO[T] {
-  def create(t:T)
+    def create(t:T)
   
-  //...
+    //...
 }
 
 trait PersistenseProvider {
-  val dataSource: Datasource
+    val dataSource: Datasource
 }
 
 trait JdbcSupport extends PersistenseProvider {  
-  def init(uri: URI, user: String, password: String): Datasource = {
-    //...
-    new Datasource{}
-  }
+    
+    class JdbcDatasource extends Datasource{
+        def persist[A](ojbect: A) = {
+            //...
+        }
+    }
+    
+    def init(uri: URI, user: String, password: String): Datasource = {
+        //...
+        new JdbcDatasource
+    }
   
-  //...
+    //...
 }

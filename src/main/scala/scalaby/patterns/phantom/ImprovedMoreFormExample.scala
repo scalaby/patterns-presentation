@@ -7,14 +7,14 @@ package scalaby.patterns.phantom
 
 import javax.servlet.http.HttpServletRequest
 
-object ImprovedFormExample {
+object ImprovedMoreFormExample {
 
-  import ImprovedMoreForm._
+    import ImprovedMoreForm._
     
-  def printForm(request: HttpServletRequest) = 
-    printFormData(readFormData(request))
+    def printForm(request: HttpServletRequest) = 
+        printFormData(readFormData(request))
   
-  /*def printFormTwice(request: HttpServletRequest) = 
-   printFormData(printFormData(readFormData(request)))*/
+    /* def printFormTwice(request: HttpServletRequest) = 
+     printFormData(printFormData(readFormData(request))) */
   
 }

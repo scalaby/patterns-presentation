@@ -24,7 +24,7 @@ trait ProductDAO {self: PersistenseProvider =>
 
   class ProductDAOImpl extends DAO[Product]{
     
-    def create(product:Product) = dataSource persist product
+    def create(product: Product) = dataSource persist product
     
     //...
   }

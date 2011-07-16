@@ -5,7 +5,7 @@
 
 package scalaby.patterns.phantom
 
-case class FormData[T <: Data](data: Map[String, String])
+case class FormData[+T <: Data](data: Map[String, String])
 
 trait Data
 trait Validated extends Data

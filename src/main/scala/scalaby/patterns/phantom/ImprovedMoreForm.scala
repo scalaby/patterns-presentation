@@ -14,17 +14,17 @@ trait StateOrder[From <: Data, To <: Data]
 
 object ImprovedMoreForm extends ImprovedForm{
     
-  implicit val unToP = new StateOrder[Unvalidated, Printed]{}
-  implicit val vToP = new StateOrder[Validated, Printed]{}
+    implicit val unToP = new StateOrder[Unvalidated, Printed]{}
+    implicit val vToP = new StateOrder[Validated, Printed]{}
   
-  implicit val printed = new FormValidator[Printed]{
-    def validate(formData: FormData[Validated]) = formData
-  }  
+    implicit val printed = new FormValidator[Printed]{
+        def validate(formData: FormData[Printed]) = formData
+    }  
   
-  def printFormData[T <: Data](formData: FormData[T])
-  (implicit validator: FormValidator[T], order: StateOrder[T, Printed]) = {
-    println("Validated form data: " + validator.validate(formData))
-    FormData[Printed](formData.data)
-  }  
+    def printFormData[T <: Data](formData: FormData[T])
+    (implicit validator: FormValidator[T], order: StateOrder[T, Printed]) = {
+        println("Validated form data: " + validator.validate(formData))
+        FormData[Printed](data = formData.data)
+    }  
   
 }
