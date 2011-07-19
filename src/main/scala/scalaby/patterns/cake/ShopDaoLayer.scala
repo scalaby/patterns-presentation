@@ -9,17 +9,15 @@ import java.net.URI
 
 object DAOLayer extends OrderDAO with ProductDAO with JdbcSupport {
   
-  val dataSource = init(new URI("uri"), "user", "password")
+    val dataSource = new JdbcDatasource(new URI("uri"), "user", "password")
 
-  val productDao = new ProductDAOImpl
-  val orderDao = new OrderDAOImpl
+    val productDao = new ProductDAOImpl
+    val orderDao = new OrderDAOImpl
   
 }
 
 class ProductService {
-  import DAOLayer._
+    import DAOLayer._
 
-  def createProduct(product: Product) = productDao.create(product)
-  
-  //...
+    def createProduct(product: Product) = productDao create product
 }

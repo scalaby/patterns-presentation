@@ -43,18 +43,16 @@ object Document {
     /*
      *  ========= BUILDER PATTERN =========
      */                       
-    def title(tag: String, attrs: Attrs): String = 
-        if(attrs.isEmpty) tag 
-    else "%s (%s)".format(tag, attrs.map(e => "%s = '%s'" format(e._1, e._2)).mkString(", "))     
+    val fromXML: XML => Doc = unfold(step)    
     
     val step: XML => DocF[String, XML] =_ match {
         case Text(text) => Para(text)
-        case Entity(tag, attrs, nodes) => Sec(title(tag, attrs), nodes)    
-    }
+        case Entity(tag, nodes, attrs) => Sec(title(tag, attrs), nodes)    
+    }        
     
-    val fromXML: XML => Doc = unfold(step)    
-    val printXML: XML => Iterable[String] = hylo(step)(combine)
-    
+    def title(tag: String, attrs: Attrs): String = 
+        if(attrs.isEmpty) tag else "%s (%s)".format(tag, attrs.map(e => "%s = '%s'" format(e._1, e._2)).mkString(", "))     
+        
     /*
      *  ========= BUILD DOCUMENT =========
      */                
@@ -72,12 +70,12 @@ object Document {
     
     def main(args: Array[String]) = {
                     
-        val xml = Entity("html", Nil, List(
-                Entity("head", Nil, List(
-                        Entity("title", Nil, List(Text("Title"))) 
+        val xml = Entity("html", List(
+                Entity("head",  List(
+                        Entity("title",  List(Text("Title"))) 
                     )),
-                Entity("body", Nil, List(
-                        Entity("h1", List("align" -> "left"), List(Text("Body")))
+                Entity("body",  List(
+                        Entity("h1",  List(Text("Body")), List("align" -> "left"))
                     ))
             ))
         

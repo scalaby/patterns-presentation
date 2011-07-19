@@ -13,8 +13,23 @@ object ImprovedMoreFormExample {
     
     def printForm(request: HttpServletRequest) = 
         printFormData(readFormData(request))
-  
-    /* def printFormTwice(request: HttpServletRequest) = 
-     printFormData(printFormData(readFormData(request))) */
+    
+    /* 
+     // You can log form data twice
+     def logForm(request: HttpServletRequest) = 
+     logFormData(logFormData(readFormData(request)))    
+     */
+
+    /* 
+     // You cannot print data that already has been logged
+     def printLoggedData(request: HttpServletRequest) = 
+     printFormData(logFormData(readFormData(request)))         
+     */
+    
+    /*  
+     // You cannot print data twice
+     def printFormTwice(request: HttpServletRequest) = 
+     printFormData(printFormData(readFormData(request)))         
+     */
   
 }

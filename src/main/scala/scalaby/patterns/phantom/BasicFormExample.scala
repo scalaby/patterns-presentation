@@ -5,14 +5,15 @@ import scala.collection.JavaConversions._
 
 object BasicFormExample {
   
-  import BasicForm._
+    import BasicForm._
   
-  def printForm(request: HttpServletRequest) = 
-    (readFormData _ andThen validate _ andThen printFormData _)(request)
+    def printForm(request: HttpServletRequest) = 
+        (readFormData _ andThen validate _ andThen printFormData _)(request)
 
-  /*
-   def printFormInvalid(request: HttpServletRequest) = 
-   (readFormData _ andThen printFormData _)(request)
-   */
+    /*
+     // Compilation of this code will fail!
+     def printFormInvalid(request: HttpServletRequest) = 
+     (readFormData _ andThen printFormData _)(request)
+     */
   
 }
