@@ -18,11 +18,9 @@ trait PathHandler {
 	implicit object BooleanReader extends Reader[Boolean] {
 		def read(input: String) = input.toBoolean
 	}
-	private val hs: M.Map[String, (Pattern, Function1[MatchResult, Unit])] = new M.LinkedHashMap()
+	private val hs: M.Map[String, (Pattern, (MatchResult) => Unit)] = new M.LinkedHashMap()
 	private def registerHandler(pattern: String)(t: (MatchResult) => Unit) {
-		hs += pattern -> (pattern.r.pattern, new Function1[MatchResult,Unit] {
-			def apply(result: MatchResult) { t(result) }
-		})
+		hs += pattern -> (pattern.r.pattern, t)
 	}
 	def handle(path: String) {
 		hs.foreach{
