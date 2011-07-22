@@ -28,17 +28,19 @@ object Document {
     /*
      *  ========= ITERATOR PATTERN =========
      */       
-    val correct: String => String = x => "> " + x        
     val corrector: Doc => Doc = map(correct)
+    
+    val correct: String => String = x => "> " + x            
     
     /*
      *  ========= VISITOR PATTERN =========
-     */            
+     */  
+    val printDoc: Doc => Iterable[String] = fold(combine)          
+
     val combine: DocF[String, Iterable[String]] => Iterable[String] = _ match {
         case Para(s) => List(s)
         case Sec(s, xs) => s :: xs.flatten.toList
-    }    
-    val printDoc: Doc => Iterable[String] = fold(combine)
+    }        
     
     /*
      *  ========= BUILDER PATTERN =========
@@ -51,7 +53,9 @@ object Document {
     }        
     
     def title(tag: String, attrs: Attrs): String = 
-        if(attrs.isEmpty) tag else "%s (%s)".format(tag, attrs.map(e => "%s = '%s'" format(e._1, e._2)).mkString(", "))     
+        if(attrs.isEmpty) tag else "%s (%s)".format(tag, attrs.map(e => "%s = '%s'" format(e._1, e._2)).mkString(", "))
+        
+    val printXML: XML => Iterable[String] = hylo(step)(combine)         
         
     /*
      *  ========= BUILD DOCUMENT =========
