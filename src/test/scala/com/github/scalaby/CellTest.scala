@@ -10,7 +10,7 @@ object CellTest {
 		val y = Cell(a() + c())
 		println(x())
 		println(y())
-		c.update(2)
+		c() = 2
 		println(x())
 		println(y())
 	}
